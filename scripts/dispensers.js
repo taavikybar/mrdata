@@ -1,0 +1,43 @@
+require('dotenv').config()
+const axios = require('axios');
+const fs = require('fs');
+const c = require('../constants')
+const log = require('../helpers/log')
+const email = require('../helpers/email')
+
+const DIR = './dispensers'
+const MS_IN_MIN = 60000
+
+async function check() {
+  for (asset of c.assetsToCheck) {
+    log(`Checking ${asset}`)
+    let existing = await fs.readFileSync(`${DIR}/${asset}.json`, 'utf8')
+    existing = JSON.parse(existing)
+
+    const address = `https://dogeparty.xchain.io/api/dispensers/${asset}`
+    const resp = await axios.get(address)
+    const dispensers = resp.data.data
+
+    if (existing.length === dispensers.length) {
+      log(`${asset} no new dispensers`)
+      continue
+    }
+
+    const existingBlocks = existing.map(e => e.block_index)
+    const newDispensers = dispensers.filter(d => !existingBlocks.includes(d.block_index))
+
+    newDispensers.forEach(d => {
+      const price = parseInt(d.satoshirate)
+      log(`${asset} new dispenser for ${price} DOGE`)
+      email.sendMail(`New ${asset} dispenser`, `Quantity: ${d.give_quantity}, remaining: ${d.give_remaining}, price: ${price} DOGE`)
+    })
+
+    await fs.writeFileSync(`${DIR}/${asset}.json`, JSON.stringify(dispensers))
+  }
+
+  log(`All checked, waiting ${c.delayInMin}min`)
+}
+
+check()
+setInterval(check, c.delayInMin*MS_IN_MIN)
+
