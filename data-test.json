@@ -1,0 +1,34 @@
+{
+  "success": true,
+  "recordsTotal": "28942",
+  "recordsFiltered": "28942",
+  "data": [
+    [
+      1,
+      "A10007989257222131431|PIXELNPCV.NPC47",
+      "imgur/IdTqX9R.png;PIXELNPCV.NPC47 9a91613bba2e7c9e51e88ff68b40c7b7",
+      "1",
+      "False",
+      "True",
+      null
+    ],
+    [
+      2,
+      "A10010449560493699366|DOGEPIXELS.WIDEDOGESAD",
+      "",
+      "10",
+      "False",
+      "True",
+      null
+    ],
+    [
+      3,
+      "A10024572177455072835|VANDOG.FLY",
+      "imgur/ZnP4anf.png",
+      "98",
+      "False",
+      "True",
+      null
+    ]
+  ]
+}
