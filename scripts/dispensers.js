@@ -29,7 +29,10 @@ async function check() {
     newDispensers.forEach(d => {
       const price = parseInt(d.satoshirate)
       log(`${asset} new dispenser for ${price} DOGE`)
-      email.sendMail(`New ${asset} dispenser`, `Quantity: ${d.give_quantity}, remaining: ${d.give_remaining}, price: ${price} DOGE`)
+
+      email.sendMail(
+        `New ${asset} dispenser`, `Quantity: ${d.give_quantity}\nRemaining: ${d.give_remaining}\nPrice: ${price} DOGE\nPrice: $${price*c.dogePrice} \n\nhttps://dogeparty.xchain.io/tx/${d.tx_hash}`
+      )
     })
 
     await fs.writeFileSync(`${DIR}/${asset}.json`, JSON.stringify(dispensers))
