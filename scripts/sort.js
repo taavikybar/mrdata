@@ -12,9 +12,9 @@ async function parseOriginalData() {
   for (f of files) {
     let data = await fs.readFileSync(`./assets/${f}`, 'utf8')
     data = JSON.parse(data)
-    
-    for(d of data) {
-      const year = new Date(d.timestamp*1000).getFullYear()
+
+    for (d of data) {
+      const year = new Date(d.timestamp * 1000).getFullYear()
 
       if (!assets[year]) {
         assets[year] = [d]
@@ -24,7 +24,7 @@ async function parseOriginalData() {
     }
   }
 
-  for(year of Object.keys(assets)) {
+  for (year of Object.keys(assets)) {
     const nfts = assets[year]
 
     nfts.sort((a, b) => a.timestamp - b.timestamp);
@@ -36,14 +36,27 @@ async function parseOriginalData() {
 // parseOriginalData()
 
 async function analyze() {
-  const files = await fs.readdirSync('./archive-by-year')
+  let data = await fs.readFileSync(`./archive-by-year/2014.json`, 'utf8')
+  data = JSON.parse(data)
+  const locked = []
 
-  for (f of files) {
-    let data = await fs.readFileSync(`./archive-by-year/${f}`, 'utf8')
-    data = JSON.parse(data)
+  for (d of data) {
+    // if (d.locked) {
+    //   locked.push(d)
+    // }
 
-    console.log(f, data.length)
+    if (parseInt(d.quantity) >= 10
+      && parseInt(d.quantity) <= 2000
+      && d.status === 'valid') {
+      locked.push(d)
+    }
   }
+
+  await fs.writeFileSync(`./archive/parsed-2014.json`, JSON.stringify(locked))
+
+  console.log(locked.length)
 }
 
-analyze()
+// analyze()
+
+console.log(new Date(1408458240000))

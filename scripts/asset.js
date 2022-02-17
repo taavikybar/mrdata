@@ -7,6 +7,6 @@ async function run(adr) {
   console.log(resp);
 }
 
-address = 'https://dogeparty.xchain.io/api/asset/TEST'
+address = 'https://dogeparty.xchain.io/api/asset/JOLLYROGER'
 
 run(address)
