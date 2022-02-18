@@ -1,28 +1,21 @@
 const axios = require('axios');
 const fs = require('fs');
 
-const base = './archive-by-year'
+const base = './archive'
 
 async function update() {
-  const start = 335669
-  const end = 730666
+  let data = await fs.readFileSync(`${base}/parsed-2014.json`, 'utf8')
+  data = JSON.parse(data)
+  const assets = []
 
-  const files = await fs.readdirSync(base)
+  for (d of data) {
+    const address = `https://dogeparty.xchain.io/api/asset/${d.asset}`
+    const resp = await axios.get(address)
 
-  for (f of files) {
-    console.log(f)
-    let assets = []
-    let data = await fs.readFileSync(`${base}/${f}`, 'utf8')
-    data = JSON.parse(data)
+    assets.push(resp.data)
 
-    for (d of data) {
-      const address = `https://dogeparty.xchain.io/api/asset/${d.asset}`
-      const resp = await axios.get(address)
-      
-      assets.push(resp.data)
-    }
-
-    await fs.writeFileSync(`${base}/${f}`, JSON.stringify(assets))
+    await fs.writeFileSync(`${base}/updated-2014.json`, JSON.stringify(assets))
+    console.log(`Updated ${d.asset}`)
   }
 }
 
