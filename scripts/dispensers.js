@@ -41,6 +41,13 @@ async function check() {
   log(`All checked, waiting ${c.delayInMin}min`)
 }
 
-check()
-setInterval(check, c.delayInMin*MS_IN_MIN)
+async function run() {
+  try {
+    check()
+    setInterval(check, c.delayInMin*MS_IN_MIN)
+  } catch(e) {
+    console.log(`Error: ${e}`)
+  }
+}
 
+run()
