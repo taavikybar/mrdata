@@ -1,5 +1,13 @@
 module.exports = {
-  assetsToCheck: ['JOLLYROGER', 'STELLA', 'TURNTABLE', 'BITBEG', 'DOGECAR'],
+  assetsToCheck: [
+    'JOLLYROGER',
+    'STELLA',
+    'TURNTABLE',
+    'BITBEG',
+    'DOGECAR',
+    'JEDI',
+    
+  ],
   delayInMin: 5,
   dogePrice: 0.15,
 }
