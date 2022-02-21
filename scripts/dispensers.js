@@ -31,23 +31,28 @@ async function check() {
       log(`${asset} new dispenser for ${price} DOGE`)
 
       email.sendMail(
-        `New ${asset} dispenser`, `Quantity: ${d.give_quantity}\nRemaining: ${d.give_remaining}\nPrice: ${price} DOGE\nPrice: $${price*c.dogePrice} \n\nhttps://dogeparty.xchain.io/tx/${d.tx_hash}`
+        `New ${asset} dispenser`, `Quantity: ${d.give_quantity}\nRemaining: ${d.give_remaining}\nPrice: ${price} DOGE\nPrice: $${price * c.dogePrice} \n\nhttps://dogeparty.xchain.io/tx/${d.tx_hash}`
       )
     })
 
     await fs.writeFileSync(`${DIR}/${asset}.json`, JSON.stringify(dispensers))
   }
 
+
   log(`All checked, waiting ${c.delayInMin}min`)
 }
 
-async function run() {
+async function wrapped() {
   try {
-    check()
-    setInterval(check, c.delayInMin*MS_IN_MIN)
-  } catch(e) {
-    console.log(`Error: ${e}`)
+    await check()
+  } catch (e) {
+    console.log(`Error thrown: ${e}`)
   }
+}
+
+async function run() {
+  wrapped()
+  setInterval(wrapped, c.delayInMin * MS_IN_MIN)
 }
 
 run()
