@@ -6,7 +6,7 @@ module.exports = {
     'BITBEG',
     'DOGECAR',
     'JEDI',
-    
+    'BACON',
   ],
   delayInMin: 5,
   dogePrice: 0.15,
